@@ -61,7 +61,7 @@ function makeCounter(num){
   num = 0;
 
   return function inner(){
-   return num = num + 1;
+   return num += 1;
 
   }
 
