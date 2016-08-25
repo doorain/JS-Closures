@@ -57,16 +57,22 @@ var callFriend = function(){
 */
 
 //Code Here
-function makeCounter(){
+function makeCounter(num){
+  num = 0;
+
+  return function inner(){
+   return num = num + 1;
+
+  }
 
 }
 
 //Uncomment this once you make your function
-//   var count = makeCounter();
-//   count(); // 1
-//   count(); // 2
-//   count(); // 3
-//   count(); // 4
+  var count = makeCounter();
+  count(); // 1
+  count(); // 2
+  count(); // 3
+  count(); // 4
 
 
 
@@ -80,16 +86,28 @@ function makeCounter(){
 // You will need to use the module pattern to achieve this.
 
 function counterFactory(value) {
+    // Code here.
+    var total = value
 
-  // Code here.
-
+  function inc(){
+     total = total + 1;
+      return total
+    }
+  function dec(){
+    total = total - 1;
+     return total
+   }
 
   return {
-  }
+    inc: inc,
+    dec: dec,
+    }
 }
 
 
-counter = counterFactory(10);
+var counter = counterFactory(10);
+counter.inc();
+
 
 
 
@@ -97,18 +115,22 @@ counter = counterFactory(10);
 //////////////////PROBLEM 5////////////////////
 
 
-// Inside the motivation function create another function called message that will return 'You're doing awesome, keep it up firstname lastname.'
+// Inside the motivation function create another function called message that
+//will return 'You're doing awesome, keep it up firstname lastname.'
 
   function motivation(firstname, lastname){
 
     var welcomeText = 'You\'re doing awesome, keep it up ';
 
     // code message function here.
+    function message(){
+      return welcomeText + firstname + " " + lastname + ".";
+    }
 
 
     //Uncommment this to return the value of your invoked message function
 
-    //return message()
+    return message();
   }
 
   motivation('Billy', 'Bob'); // 'Your doing awesome keep it up Billy Bob
@@ -117,8 +139,8 @@ counter = counterFactory(10);
 
 //////////////////PROBLEM 6////////////////////
 
-// Inside the return create a publicMethod property that is a function that invokes privateMethod. After you create the privateMethod
-// Invoke it by calling module.publicMethod(); outside the module scope
+// Inside the return create a publicMethod property that is a function that invokes privateMethod.
+//After you create the privateMethod, Invoke it by calling module.publicMethod(); outside the module scope
 
   var module = (function() {
     var person = {
@@ -135,12 +157,15 @@ counter = counterFactory(10);
 
     return {
       // Code here.
+      publicMethod: function(){
+        return privateMethod();
+      }
     };
 
   })();
 
 //Uncomment this after you create your public method
-//   module.publicMethod();
+module.publicMethod();
 
 
 
@@ -151,9 +176,11 @@ counter = counterFactory(10);
 
 function timeOutCounter() {
   for (var i = 0; i <= 5; i++) {
-    setTimeout(function() {
-      console.log(i);
-    }, i * 1000)
+    setTimeout(function(i) {
+      return function(){
+        return newScope(i);
+      };
+    } (i), i * 1000)
   }
 
   function newScope(i) {
